@@ -1,0 +1,71 @@
+In this project, our goal is to create a shortest_path function that
+finds the shortest path of movies-to-actor that connects a source 
+and target actor.
+
+Because we want to find the shortest path, we should likely use a 
+breadth-first search. We also don't want to explore the same
+connecting actors multiple times, since doing so will lead to an 
+infinite loop. We also want to prevent an infinite loop in the case
+that the target and source id's are the same.
+
+Our first check will be to see if the source id and the target id
+are the same. If they are, then we will return an empty array so 
+"0 degress of separation." is displayed to the end user.
+
+If this check is passed, we will begin construction of our Frontier,
+which will be in the form of a queue, rather than stack, to undergo 
+a breadth-first search. Our starting node (with the source ID) is 
+added to the queue, and we also creeate an empty set that will keep
+track of already explored actors.
+
+We constuct a while loop with a True condition, and the first line
+checks if the queue is empty. If it is, that means all actors have 
+been searched and 'None' is returned, thereby ending the loop and
+the function call.
+
+The remove() method defined within the QueueFrontier object removes 
+a node from the queue and returns the removed node for inspection. 
+We assign this removed node to a variable called 'node'. We add 
+the node's state(id) to the explored_actors set and then get the 
+neighbors pertaining to the node's id by assigning a 'neighbors' 
+variable to the result of 'neighbors_for_person(node.state)', 
+which returns a set of tuples, where each tuple is in the form 
+(movie_id, person_id).
+
+We destructure the neighbors variable within a for loop, which lets 
+us iterate through each individual tuple in the set. For each tuple,
+we check if the actor has been explored already by checking if it is
+in the explored_actors set. We also check to see if our queue does 
+not currently contain the actor id we are about to investigate. If 
+either fails, nothing is done, and the node is effectively removed 
+from the queue.
+
+If, however, we have not explored the particular actor and the 
+actor's id is not yet in the queue, we investigate further. We 
+create a child node, whose state is the actor's id, whose parent is 
+the node we passed into the neighbors_for_person() function, and 
+whose action is the movie_id associated with the actor_id extracted
+from the current iteration over the set of tuples from the same 
+neighbors_for_person() function. We then check the state of the 
+child node to see if it is equal to the target id. If it isn't,
+this child will be added to the queue so that we can inspect it's
+own children for a potential match. 
+
+However, if the child.state is equal to the target_id, we have foundour match. We create an empty 'path' array, and set the node as the child node. We then iterate up from this node to the root node as 
+follows to get the reverse of the path (we'll reverse it later so 
+that we can get the path FROM the source person's id):
+	- The root node has no parent (parent is set to 'None'),
+	so we will use a while loop with a condition that checks 
+	to see if the node being currently inspected has a parent 
+	node that isn't 'None'.
+	- We add ((node.action, node.state)) to the path, which 
+	translates to ((movie_id, actor_id)). This appends a tuple
+	to our path array, which is required for the function return
+	- We then set the current node to the parent node so that we
+	can keep going up the ladder.
+	- As mention, loop continues until the root node, with no 
+	parent, is encountered.
+
+Finally, the path is reversed (as mentioned, so we can specify the
+shortest path FROM the source person TO the target person) and then
+return the path array.
