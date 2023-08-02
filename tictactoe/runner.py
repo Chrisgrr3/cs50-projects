@@ -13,16 +13,15 @@ white = (255, 255, 255)
 
 screen = pygame.display.set_mode(size)
 
-mediumFont = pygame.font.Font("OpenSans-Regular.ttf", 28)
-largeFont = pygame.font.Font("OpenSans-Regular.ttf", 40)
-moveFont = pygame.font.Font("OpenSans-Regular.ttf", 60)
+mediumFont = pygame.font.Font("./tictactoe/OpenSans-Regular.ttf", 28)
+largeFont = pygame.font.Font("./tictactoe/OpenSans-Regular.ttf", 40)
+moveFont = pygame.font.Font("./tictactoe/OpenSans-Regular.ttf", 60)
 
 user = None
 board = ttt.initial_state()
 ai_turn = False
 
 while True:
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
@@ -31,7 +30,6 @@ while True:
 
     # Let user choose a player.
     if user is None:
-
         # Draw title
         title = largeFont.render("Play Tic-Tac-Toe", True, white)
         titleRect = title.get_rect()
@@ -65,11 +63,9 @@ while True:
                 user = ttt.O
 
     else:
-
         # Draw game board
         tile_size = 80
-        tile_origin = (width / 2 - (1.5 * tile_size),
-                       height / 2 - (1.5 * tile_size))
+        tile_origin = (width / 2 - (1.5 * tile_size), height / 2 - (1.5 * tile_size))
         tiles = []
         for i in range(3):
             row = []
@@ -77,7 +73,8 @@ while True:
                 rect = pygame.Rect(
                     tile_origin[0] + j * tile_size,
                     tile_origin[1] + i * tile_size,
-                    tile_size, tile_size
+                    tile_size,
+                    tile_size,
                 )
                 pygame.draw.rect(screen, white, rect, 3)
 
@@ -124,7 +121,7 @@ while True:
             mouse = pygame.mouse.get_pos()
             for i in range(3):
                 for j in range(3):
-                    if (board[i][j] == ttt.EMPTY and tiles[i][j].collidepoint(mouse)):
+                    if board[i][j] == ttt.EMPTY and tiles[i][j].collidepoint(mouse):
                         board = ttt.result(board, (i, j))
 
         if game_over:
