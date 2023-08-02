@@ -98,6 +98,8 @@ def terminal(board):
     elif winner(board) != None:
         return True
 
+    return False
+
 
 def utility(board):
     """
