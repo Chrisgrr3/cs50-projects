@@ -83,6 +83,7 @@ def winner(board):
                     and board[row + 1][column] == board[row + 2][column]
                 ):
                     return board[row][column]
+    return None
 
 
 def terminal(board):
