@@ -13,30 +13,48 @@ def initial_state():
     """
     Returns starting state of the board.
     """
-    return [[EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY]]
+    return [[EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY]]
 
 
 def player(board):
     """
     Returns player who has the next turn on a board.
     """
-    raise NotImplementedError
+    count = 0
+    for row in board:
+        for column in row:
+            if board[row][column] != EMPTY:
+                count += 1
+
+    if count % 2 == 0:
+        return X
+    else:
+        return O
 
 
 def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
-    raise NotImplementedError
+    possible_moves = set()
+    for row in board:
+        for column in row:
+            if board[row][column] == EMPTY:
+                possible_moves.add((row, column))
+    return possible_moves
 
 
 def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    raise NotImplementedError
+    current_player = player(board)
+    if action not in actions(board):
+        raise Exception("That is not a valid move")
+    else:
+        row = action[0]
+        column = action[1]
+        board[row][column] = current_player
 
 
 def winner(board):
