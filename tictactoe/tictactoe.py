@@ -71,7 +71,7 @@ def winner(board):
 
     for row in range(0, len(board)):
         # Check winner horizontally
-        if board[row][0] == board[row][1] and board[row][1] == board[row][2]:
+        if board[row][0] and board[row][0] == board[row][1] == board[row][2]:
             return board[row][0]
         # Check winner vertically
         if row == 0:
